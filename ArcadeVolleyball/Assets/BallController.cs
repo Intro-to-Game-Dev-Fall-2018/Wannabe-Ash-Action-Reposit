@@ -13,8 +13,10 @@ public class BallController : MonoBehaviour {
 	public Text PointsTextRight;
 	public Text WinText;
 	public AudioClip hitSound;
-	private int Leftcount;
-	private int Rightcount;
+	private int LeftScorecount;
+	private int RightScorecount;
+	private int LeftHitCount;
+	private int RightHitCount;
 	private AudioSource source;
 	private float volLowRange = 0.5f;
 	private float volHighRange = 1.0f;
@@ -25,8 +27,10 @@ public class BallController : MonoBehaviour {
 		source = GetComponent<AudioSource>();
 		transform.position = new Vector2(-3, 0);
 		WinText.text = "";
-		Leftcount = 0;
-		Rightcount = 0;
+		LeftScorecount = 0;
+		RightScorecount = 0;
+		LeftHitCount = 0;
+		RightHitCount = 0;
 		SetPointsText();
 	}
 	
@@ -47,14 +51,14 @@ public class BallController : MonoBehaviour {
 		if (other.gameObject.tag == "L.Floor")
 		{
 			transform.position = new Vector2(-3, 0);
-			Rightcount += 1;
+			RightScorecount += 1;
 			SetPointsText();
 		}
 
 		if (other.gameObject.tag == "R.Floor")
 		{
 			transform.position = new Vector2(3, 0);
-			Leftcount += 1;
+			LeftScorecount += 1;
 			SetPointsText();
 		}
 
@@ -64,6 +68,12 @@ public class BallController : MonoBehaviour {
 			vel.y = -speed;
 			vel.x = speed;
 			RB.velocity = vel;
+			LeftHitCount++;
+
+			if (LeftHitCount == 3)
+			{
+				transform.position = new Vector2(-3, 0);
+			}
 		}
 		if (other.gameObject.tag == "RightPlayer")
 		{
@@ -71,6 +81,12 @@ public class BallController : MonoBehaviour {
 			vel.y = -speed;
 			vel.x = -speed;
 			RB.velocity = vel;
+			RightHitCount++;
+			
+			if (RightHitCount == 3)
+			{
+				transform.position = new Vector2(-3, 0);
+			}
 		}
 
 		if (other.gameObject.tag == "L.Wall")
@@ -108,10 +124,10 @@ public class BallController : MonoBehaviour {
 	
 	void SetPointsText()
 	{
-		PointsTextLeft.text = "Score:" + Leftcount.ToString();
-		PointsTextRight.text = "Score:" + Rightcount.ToString();
+		PointsTextLeft.text = "Score:" + LeftScorecount.ToString();
+		PointsTextRight.text = "Score:" + RightScorecount.ToString();
 		RB.velocity = new Vector2(0,0);
-		if (Leftcount >= 10 || Rightcount >=10)
+		if (LeftScorecount >= 10 || RightScorecount >=10)
 		{
 			WinText.text = "Victory!!!";
 			RB.velocity = new Vector2(0,0);
