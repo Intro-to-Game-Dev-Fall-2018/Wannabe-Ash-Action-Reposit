@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 358e6f66382b141bea5fea5bee5b596b
+labels:
+- Effect
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
@@ -11,9 +13,9 @@ AudioImporter:
     quality: 1
     conversionMode: 0
   platformSettingOverrides: {}
-  forceToMono: 0
-  normalize: 1
-  preloadAudioData: 1
+  forceToMono: 1
+  normalize: 0
+  preloadAudioData: 0
   loadInBackground: 0
   ambisonic: 0
   3D: 1
