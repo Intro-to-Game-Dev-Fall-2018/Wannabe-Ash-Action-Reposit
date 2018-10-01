@@ -19,8 +19,8 @@ public class BallController : MonoBehaviour {
 	private int LeftHitCount;
 	private int RightHitCount;
 	private AudioSource source;
-	private float volLowRange = 0.5f;
-	private float volHighRange = 1.0f;
+//	private float volLowRange = 0.5f;
+//	private float volHighRange = 1.0f;
 	private Boolean AlreadyHitR;
 	private Boolean AlreadyHitL;
 	
@@ -74,8 +74,8 @@ public class BallController : MonoBehaviour {
 		if (other.gameObject.tag == "LeftPlayer")
 		{
 			Vector2 vel = RB.velocity;
-			vel.y = speed;
-			vel.x = speed;
+			//vel.y = speed;
+			//vel.x = speed;
 			RB.velocity = vel;
 			AlreadyHitL = true;
 			Debug.Log("This is the LHC: " + LeftHitCount);			
@@ -112,8 +112,8 @@ public class BallController : MonoBehaviour {
 		if (other.gameObject.tag == "RightPlayer")
 		{
 			Vector2 vel = RB.velocity;
-			vel.y = speed;
-			vel.x = -speed;
+			//vel.y = speed;
+			//vel.x = -speed;
 			RB.velocity = vel;
 			AlreadyHitR = true;
 			Debug.Log("This is the RHC: " + RightHitCount);
@@ -149,15 +149,15 @@ public class BallController : MonoBehaviour {
 		{
 			Vector2 vel = RB.velocity;
 			vel.x = speed;
-			vel.y = speed;
+			//vel.y = -speed;
 			RB.velocity = vel;
 		}
 
 		if (other.gameObject.tag == "R.Wall")
 		{
 			Vector2 vel = RB.velocity;
-			vel.x = speed;
-			vel.y = speed;
+			vel.x = -speed;
+			//vel.y = -speed;
 			RB.velocity = vel;
 		}
 
@@ -171,8 +171,8 @@ public class BallController : MonoBehaviour {
 		if (other.gameObject.tag == "Net")
 		{
 			Vector2 vel = RB.velocity;
-			vel.x = -speed;
 			vel.y = -speed;
+			vel.x = -speed;
 			RB.velocity = vel;
 		}
 

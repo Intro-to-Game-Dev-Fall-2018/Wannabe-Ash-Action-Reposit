@@ -12,10 +12,7 @@ public class TeamOneMover : MonoBehaviour
 	public int JumpsLeft = 1;
 	private Rigidbody2D rb2d;
 	private GameObject team;
-	
-	
-	
-	
+	public Sprite Jumper;
 	
 	// Use this for initialization
 	void Start ()
@@ -83,10 +80,24 @@ public class TeamOneMover : MonoBehaviour
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)
-	{
+	{	
+		Vector2 vel = rb2d.velocity;
 		if (coll.gameObject.tag == "R.Floor")
 		{
 			JumpsLeft = 2;
+		}
+
+		if (coll.gameObject.tag == "R.Wall")
+		{
+			vel.y = -speed;
+
+		}
+
+		rb2d.velocity = vel;
+		
+		if (coll.gameObject.tag != "R.Floor")
+		{
+			this.GetComponent<SpriteRenderer>().sprite = Jumper;
 		}
 
 	}
