@@ -27,7 +27,9 @@ public class BallController : MonoBehaviour {
 	void Start ()
 	{
 		RB = GetComponent<Rigidbody2D>();
-		source = GetComponent<AudioSource>();
+		GetComponent<AudioSource>().playOnAwake = false;
+		GetComponent<AudioSource>().clip = source;
+		
 		transform.position = new Vector3(-3, 0, -6);
 		WinText.text = "";
 		LeftScorecount = 0;
@@ -46,7 +48,7 @@ public class BallController : MonoBehaviour {
 		if(Input.GetKey(KeyCode.Space)){
 			vel.y = -speed;
 			RB.velocity = vel;
-			source.PlayOneShot(hitSound, 1F);
+			//source.PlayOneShot(hitSound, 1F);
 		}
 	}
 
@@ -76,8 +78,10 @@ public class BallController : MonoBehaviour {
 			Vector2 vel = RB.velocity;
 			//vel.y = speed;
 			//vel.x = speed;
+			source.Play(0);
 			RB.velocity = vel;
 			AlreadyHitL = true;
+			AlreadyHitR = false;
 			Debug.Log("This is the LHC: " + LeftHitCount);			
 			
 			if (AlreadyHitL && LeftHitCount < 3)
@@ -100,6 +104,7 @@ public class BallController : MonoBehaviour {
 			{
 				LeftHitCount = 0;
 				RightHitCount = 0;
+				AlreadyHitL = false;
 				transform.position = new Vector3(3, 0, -6);
 				RightScorecount++;
 				SetPointsText();	
@@ -112,10 +117,12 @@ public class BallController : MonoBehaviour {
 		if (other.gameObject.tag == "RightPlayer")
 		{
 			Vector2 vel = RB.velocity;
+			source.Play(0);
 			//vel.y = speed;
 			//vel.x = -speed;
 			RB.velocity = vel;
 			AlreadyHitR = true;
+			AlreadyHitL = false;
 			Debug.Log("This is the RHC: " + RightHitCount);
 			
 			if (AlreadyHitR && RightHitCount < 3)
@@ -140,6 +147,7 @@ public class BallController : MonoBehaviour {
 				LeftHitCount = 0;
 				transform.position = new Vector3(-3, 0, -6);
 				LeftScorecount++;
+				AlreadyHitR = false;
 				SetPointsText();
 			}
 
@@ -170,10 +178,33 @@ public class BallController : MonoBehaviour {
 
 		if (other.gameObject.tag == "Net")
 		{
-			Vector2 vel = RB.velocity;
-			vel.y = -speed;
-			vel.x = -speed;
-			RB.velocity = vel;
+			Debug.Log("This was AHL: " + AlreadyHitL);
+			Debug.Log("This was AHR: " + AlreadyHitR);
+
+			if (AlreadyHitL && !AlreadyHitR)
+			{
+				transform.position = new Vector3(3, 0, -6);
+				RightScorecount++;
+				LeftHitCount = 0;
+				RightHitCount = 0;
+				Debug.Log("The left team hit the net!!!!!!!! Score one for the right");
+				SetPointsText();	
+			}
+
+			if (AlreadyHitR && !AlreadyHitL)
+			{
+				transform.position = new Vector3(-3, 0, -6);
+				LeftScorecount++;
+				RightHitCount = 0;
+				LeftHitCount = 0;
+				Debug.Log("The right team hit the net!!!!!!!! Score one for the left");
+				SetPointsText();
+			}
+
+//			Vector2 vel = RB.velocity;
+//			vel.y = -speed;
+//			vel.x = -speed;
+//			RB.velocity = vel;
 		}
 
 	}

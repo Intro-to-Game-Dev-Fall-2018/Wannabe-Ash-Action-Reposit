@@ -22,7 +22,7 @@ public class SpriteSwap : MonoBehaviour {
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.tag != "R.Floor")
+		if (other.gameObject.tag == "R.Floor")
 		{
 			this.GetComponent<SpriteRenderer>().sprite = Jumper;
 		}
