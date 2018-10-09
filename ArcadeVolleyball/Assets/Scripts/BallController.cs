@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public class BallController : MonoBehaviour {
 
@@ -15,14 +16,13 @@ public class BallController : MonoBehaviour {
 	public Text WinText;
 	public AudioClip hitSound;
     public AudioSource source;
+    public AudioClip cheers;
+    public AudioSource source2;
 
     private int LeftScorecount;
 	private int RightScorecount;
 	private int LeftHitCount;
 	private int RightHitCount;
-
-//	private float volLowRange = 0.5f;
-//	private float volHighRange = 1.0f;
 
 	private Boolean AlreadyHitR;
 	private Boolean AlreadyHitL;
@@ -31,6 +31,7 @@ public class BallController : MonoBehaviour {
 	{
 		RB = GetComponent<Rigidbody2D>();
         source.clip = hitSound;
+        source2.clip = cheers;
 		transform.position = new Vector3(-3, 0, -6);
 		WinText.text = "";
 		LeftScorecount = 0;
@@ -40,17 +41,20 @@ public class BallController : MonoBehaviour {
 		AlreadyHitR = false;
 		AlreadyHitL = false;
 		SetPointsText();
+       
 	}
 	
 	void Update () {
 		
 		Vector2 vel = RB.velocity;
-		
+        source2.Play();
 		if(Input.GetKey(KeyCode.Space)){
 			vel.y = -speed;
-			RB.velocity = vel;
+            RB.velocity = vel;
 		}
 	}
+
+ 
 
 	void OnCollisionEnter2D(Collision2D other)
 	{
@@ -62,6 +66,7 @@ public class BallController : MonoBehaviour {
 			LeftHitCount = 0;
 			RightHitCount = 0;
 			SetPointsText();
+
 		}
 
 		if (other.gameObject.tag == "R.Floor")
@@ -85,20 +90,9 @@ public class BallController : MonoBehaviour {
 			
 			if (AlreadyHitL && LeftHitCount < 3)
 			{
-				//Debug.Log("The L.Ball was hit");
-				//Debug.Log("This is the LHC: " + LeftHitCount);
 				LeftHitCount++;
                 RightHitCount = 0;
 			}
-			
-			//else if (!AlreadyHitL && LeftHitCount < 3)
-			//{
-				//Debug.Log("The R.Ball was hit");
-				//Debug.Log("This is the LHC: " + LeftHitCount);
-				//RightHitCount = 0;
-				//LeftHitCount = 0;
-            //    AlreadyHitL = false;
-            //}
 
 			else
 			{
@@ -125,20 +119,9 @@ public class BallController : MonoBehaviour {
 			
 			if (AlreadyHitR && RightHitCount < 3)
 			{
-				//Debug.Log("The R.Ball was hit");
-				//Debug.Log("This is the RHC: " + RightHitCount);
 				RightHitCount++;
                 LeftHitCount = 0;
 			}
-			
-			//else if (!AlreadyHitL && RightHitCount < 3)
-			//{
-			//	Debug.Log("The L.Ball was hit");
-			//	Debug.Log("This is the RHC: " + RightHitCount);
-			//	LeftHitCount = 0;
-			//	RightHitCount = 0;
-			//	AlreadyHitR = false;
-			//}
 
 			else
 			{
@@ -156,7 +139,6 @@ public class BallController : MonoBehaviour {
 		{
 			Vector2 vel = RB.velocity;
 			vel.x = speed;
-			//vel.y = -speed;
 			RB.velocity = vel;
             source.PlayOneShot(hitSound);
         }
@@ -165,7 +147,6 @@ public class BallController : MonoBehaviour {
 		{
 			Vector2 vel = RB.velocity;
 			vel.x = -speed;
-			//vel.y = -speed;
 			RB.velocity = vel;
             source.PlayOneShot(hitSound);
         }
@@ -183,25 +164,6 @@ public class BallController : MonoBehaviour {
 			Debug.Log("This was AHL: " + AlreadyHitL);
 			Debug.Log("This was AHR: " + AlreadyHitR);
             source.PlayOneShot(hitSound);
-   //         if (AlreadyHitL && !AlreadyHitR)
-			//{
-			//	transform.position = new Vector3(3, 0, -6);
-			//	RightScorecount++;
-			//	LeftHitCount = 0;
-			//	RightHitCount = 0;
-			//	Debug.Log("The left team hit the net!!!!!!!! Score one for the right");
-			//	SetPointsText();	
-			//}
-
-			//if (AlreadyHitR)
-			//{
-			//	transform.position = new Vector3(-3, 0, -6);
-			//	LeftScorecount++;
-			//	RightHitCount = 0;
-			//	LeftHitCount = 0;
-			//	Debug.Log("The right team hit the net!!!!!!!! Score one for the left");
-			//	SetPointsText();
-			//}
 
 			Vector2 vel = RB.velocity;
 			vel.y = -speed;

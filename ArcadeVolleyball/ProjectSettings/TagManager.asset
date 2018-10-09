@@ -13,6 +13,7 @@ TagManager:
   - Net
   - RightPlayer
   - LeftPlayer
+  - PowerUp
   layers:
   - Default
   - TransparentFX

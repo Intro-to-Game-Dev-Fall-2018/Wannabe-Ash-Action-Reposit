@@ -13,6 +13,7 @@ public class TeamOneMover : MonoBehaviour
 	private Rigidbody2D rb2d;
 	private GameObject team;
 	public Sprite Jumper;
+
 	
 	// Use this for initialization
 	void Start ()
@@ -79,28 +80,33 @@ public class TeamOneMover : MonoBehaviour
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D coll)
-	{	
-		Vector2 vel = rb2d.velocity;
-		if (coll.gameObject.tag == "R.Floor")
-		{
-			JumpsLeft = 2;
-		}
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        Vector2 vel = rb2d.velocity;
+        if (coll.gameObject.tag == "R.Floor")
+        {
+            JumpsLeft = 2;
+        }
 
-		if (coll.gameObject.tag == "R.Wall")
-		{
-			vel.y = -speed;
+        if (coll.gameObject.tag == "R.Wall")
+        {
+            vel.y = -speed;
 
-		}
+        }
 
-		rb2d.velocity = vel;
-		
-		if (coll.gameObject.tag != "R.Floor")
-		{
-			this.GetComponent<SpriteRenderer>().sprite = Jumper;
-		}
+        rb2d.velocity = vel;
 
-	}
+        //if (coll.gameObject.tag != "R.Floor")
+        //{
+        //    this.GetComponent<SpriteRenderer>().sprite = Jumper;
+        //}
+        Debug.Log(coll.gameObject.tag);
+        if (coll.gameObject.tag == "PowerUp")
+        {
+            Debug.Log("triggered");
+            //b.speed *= 2;
+        }
 
+    }
 	
 }
